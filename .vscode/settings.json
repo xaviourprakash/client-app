@@ -1,0 +1,21 @@
+{
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "cSpell.ignoreWords": [
+        "activities",
+        "activity",
+        "del",
+        "delete",
+        "getactivities",
+        "getactivity",
+        "i",
+        "id",
+        "promise",
+        "put",
+        "removeactivity",
+        "requests",
+        "saveactivity",
+        "string",
+        "update",
+        "updateactivity"
+    ]
+}
