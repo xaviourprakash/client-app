@@ -12,6 +12,7 @@ import { TextAreaInput } from './../../../app/common/form/TextAreaInput';
 import { SelectInput } from './../../../app/common/form/SelectInput';
 import { category } from './../../../app/common/options/categoryOptions';
 import { DateInput } from './../../../app/common/form/DateInput';
+import { combineDateAndTime } from '../../../app/common/util/util';
 
 interface DetailParams {
 	id: string;
@@ -27,8 +28,6 @@ const ActivityForm = ({
 }: RouteComponentProps<DetailParams>) => {
 	const activityStore = useContext(activityStoreContext);
 	const {
-		createActivity,
-		editActivity,
 		submitting,
 		activity: initialFormState,
 		loadActivity,
@@ -42,6 +41,7 @@ const ActivityForm = ({
 		category: '',
 		description: '',
 		date: undefined,
+		time: undefined,
 		city: '',
 		venue: '',
 	});
@@ -67,23 +67,11 @@ const ActivityForm = ({
 		activity.id,
 	]);
 
-	// const handleSubmit = () => {
-	// 	if (activity.id.length === 0) {
-	// 		//Here GUID will be auto generated from client side
-	// 		let newActivity = { ...activity, id: uuid() };
-	// 		createActivity(newActivity).then(() => {
-	// 			//To redirect to activity details page after create
-	// 			history.push(`/activities/${newActivity.id}`);
-	// 		});
-	// 	} else
-	// 		editActivity(activity).then(() => {
-	// 			//To redirect to activity details page after edit
-	// 			history.push(`/activities/${activity.id}`);
-	// 		});
-	// };
-
 	const handleFinalFormSubmit = (values: any) => {
-		console.log(values);
+		const dateAndTime = combineDateAndTime(values.date, values.time);
+		const { date, time, ...activity } = values;
+		activity.date = dateAndTime;
+		console.log(activity);
 	};
 
 	return (

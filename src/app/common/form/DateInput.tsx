@@ -12,9 +12,10 @@ interface IProps
 }
 
 export const DateInput = ({
+	id,
+	messages,
 	input,
 	width,
-	messages,
 	date = false,
 	time = false,
 	placeholder,
@@ -28,6 +29,8 @@ export const DateInput = ({
 				placeholder={placeholder}
 				value={input.value || null}
 				onChange={input.onChange}
+				date={date}
+				time={time}
 				{...rest}
 			/>
 			{touched && error && (

@@ -42,7 +42,7 @@ const ActivityDetailedHeader = ({ activity }: IProps) => {
 									content={activity.title}
 									style={{ color: 'white' }}
 								/>
-								<p>{format(activity.date, 'do MMMM')}</p>
+								<p>{format(activity.date, 'iiii do MMMM')}</p>
 								<p>
 									Hosted by <strong>Bob</strong>
 								</p>
