@@ -1,22 +1,26 @@
 /** @format */
 
 import {
+	makeObservable,
 	action,
 	computed,
-	makeObservable,
 	observable,
-	configure,
 	runInAction,
 } from 'mobx';
-import { createContext, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import { history } from '../..';
 import agent from '../api/agent';
 import { IActivity } from './../models/activity';
+import { RootStore } from './rootStore';
 
-//To strict the state of an object can only be set within @action
-configure({ enforceActions: 'always' });
+export default class ActivityStore {
+	@observable rootStore: RootStore;
 
-class ActivityStore {
+	constructor(rootStore: RootStore) {
+		this.rootStore = rootStore;
+		makeObservable(this);
+	}
+
 	@observable target = '';
 	@observable loadingInitial = false;
 	@observable submitting = false;
@@ -24,10 +28,6 @@ class ActivityStore {
 
 	//Dynamic keyed observable map for activity list from MobX - which has additional functionality
 	@observable activityRegistry = new Map();
-
-	constructor() {
-		makeObservable(this);
-	}
 
 	@computed get activitiesByDate() {
 		return this.groupActivitiesByDate(
@@ -164,5 +164,3 @@ class ActivityStore {
 		);
 	};
 }
-
-export const activityStoreContext = createContext(new ActivityStore());

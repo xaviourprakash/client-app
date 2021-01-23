@@ -2,7 +2,6 @@
 
 import { Button, Form, Grid, Segment } from 'semantic-ui-react';
 import React, { useEffect, useContext, useState } from 'react';
-import { activityStoreContext } from '../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
@@ -20,6 +19,7 @@ import {
 	composeValidators,
 	hasLengthGreaterThan,
 } from 'revalidate';
+import { rootStoreContext } from '../../../app/stores/rootStore';
 
 const validate = combineValidators({
 	title: isRequired({ message: 'The title is required' }),
@@ -48,13 +48,13 @@ const ActivityForm = ({
 	match,
 	history,
 }: RouteComponentProps<DetailParams>) => {
-	const activityStore = useContext(activityStoreContext);
+	const rootStore = useContext(rootStoreContext);
 	const {
 		submitting,
 		loadActivity,
 		createActivity,
 		editActivity,
-	} = activityStore;
+	} = rootStore.activityStore;
 
 	//To set initial state for activity form (which is empty) on load
 	const [activity, setActivity] = useState(new ActivityFormValues());
@@ -95,6 +95,9 @@ const ActivityForm = ({
 						initialValues={activity}
 						onSubmit={handleFinalFormSubmit}
 						render={({ handleSubmit, invalid, pristine }) => (
+							//invalid -> Disable submit button if the form has invalid data
+							//pristine -> Disable submit button if it is true whenever the form is completely empty.
+							//It's false when at least something has been written, if the form has been touched in any way
 							<Form onSubmit={handleSubmit} loading={loading}>
 								<Field
 									name='title'

@@ -3,9 +3,21 @@
 import axios, { AxiosResponse } from 'axios';
 import { history } from '../..';
 import { IActivity } from './../models/activity';
+import { IUser, IUserFormValues } from './../models/user';
 import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = 'https://localhost:44382/api';
+
+axios.interceptors.request.use(
+	(config) => {
+		const token = window.localStorage.getItem('jwt');
+		if (token) config.headers.Authorization = `Bearer ${token}`;
+		return config;
+	},
+	(error) => {
+		return Promise.reject(error);
+	},
+);
 
 //To intercept error response from API
 axios.interceptors.response.use(undefined, (error) => {
@@ -24,9 +36,14 @@ axios.interceptors.response.use(undefined, (error) => {
 	) {
 		history.push('/notfound');
 	}
+	if (status === 401) {
+		toast.error('Invalid credentials - invalid email and password!');
+	}
 	if (status === 500) {
 		toast.error('Server error - check the terminal for more information!');
 	}
+
+	throw error.response;
 });
 
 const responseBody = (response: AxiosResponse) => response.data;
@@ -56,5 +73,13 @@ const Activities = {
 		requests.del(`/activities/removeactivity/${id}`),
 };
 
+const User = {
+	currentUser: (): Promise<IUser> => requests.get('/user/currentUser'),
+	login: (user: IUserFormValues): Promise<IUser> =>
+		requests.post('/user/login', user),
+	register: (user: IUserFormValues): Promise<IUser> =>
+		requests.post('/user/register', user),
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { Activities };
+export default { Activities, User };

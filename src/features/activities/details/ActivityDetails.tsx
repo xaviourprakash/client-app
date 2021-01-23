@@ -2,7 +2,6 @@
 
 import { Grid } from 'semantic-ui-react';
 import React, { useContext, useEffect } from 'react';
-import { activityStoreContext } from './../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { RouteComponentProps } from 'react-router-dom';
@@ -10,6 +9,7 @@ import ActivityDetailedHeader from './ActivityDetailedHeader';
 import ActivityDetailedInfo from './ActivityDetailedInfo';
 import ActivityDetailedChat from './ActivityDetailedChat';
 import ActivityDetailedSidebar from './ActivityDetailedSidebar';
+import { rootStoreContext } from '../../../app/stores/rootStore';
 
 interface DetailParams {
 	id: string;
@@ -19,12 +19,12 @@ const ActivityDetails = ({
 	match,
 	history,
 }: RouteComponentProps<DetailParams>) => {
-	const activityStore = useContext(activityStoreContext);
-	const { activity, loadActivity, loadingInitial } = activityStore;
+	const rootStore = useContext(rootStoreContext);
+	const { activity, loadActivity, loadingInitial } = rootStore.activityStore;
 
 	useEffect(() => {
 		loadActivity(match.params.id);
-	}, [loadActivity, match.params.id]);
+	}, [loadActivity, match.params.id, history]);
 
 	if (loadingInitial)
 		return <LoadingComponent content='Loading activities...' />;
