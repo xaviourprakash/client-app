@@ -17,5 +17,8 @@
         "string",
         "update",
         "updateactivity"
+    ],
+    "cSpell.words": [
+        "unattend"
     ]
 }

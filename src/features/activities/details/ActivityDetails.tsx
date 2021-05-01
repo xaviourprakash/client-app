@@ -21,6 +21,7 @@ const ActivityDetails = ({
 }: RouteComponentProps<DetailParams>) => {
 	const rootStore = useContext(rootStoreContext);
 	const { activity, loadActivity, loadingInitial } = rootStore.activityStore;
+	const hostName = activity?.attendees.filter((x) => x.isHost)[0].displayName;
 
 	useEffect(() => {
 		loadActivity(match.params.id);
@@ -34,12 +35,12 @@ const ActivityDetails = ({
 	return (
 		<Grid>
 			<Grid.Column width={10}>
-				<ActivityDetailedHeader activity={activity} />
+				<ActivityDetailedHeader activity={activity} hostName={hostName} />
 				<ActivityDetailedInfo activity={activity} />
 				<ActivityDetailedChat />
 			</Grid.Column>
 			<Grid.Column width={6}>
-				<ActivityDetailedSidebar />
+				<ActivityDetailedSidebar attendees={activity.attendees} />
 			</Grid.Column>
 		</Grid>
 	);

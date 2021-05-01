@@ -71,6 +71,10 @@ const Activities = {
 		requests.put(`/activities/updateactivity/${activity.id}`, activity),
 	delete: (id: string): Promise<IActivity> =>
 		requests.del(`/activities/removeactivity/${id}`),
+	attend: (id: string): Promise<IActivity> =>
+		requests.post(`/activities/activity/attend/${id}`, {}),
+	unattend: (id: string): Promise<IActivity> =>
+		requests.del(`/activities/activity/unattend/${id}`),
 };
 
 const User = {

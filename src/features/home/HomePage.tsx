@@ -1,11 +1,7 @@
 /** @format */
 
 import { Link } from 'react-router-dom';
-import { Container } from 'semantic-ui-react';
-import { Segment } from 'semantic-ui-react';
-import { Header } from 'semantic-ui-react';
-import { Image } from 'semantic-ui-react';
-import { Button } from 'semantic-ui-react';
+import { Container, Segment, Header, Image, Button } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Fragment, useContext } from 'react';
 import { rootStoreContext } from '../../app/stores/rootStore';
